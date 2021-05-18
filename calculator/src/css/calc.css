@@ -1,0 +1,13 @@
+.center{
+    display: table;
+    margin: 5em auto;
+}
+
+.no-bullets{
+    list-style: none;
+}
+
+.result{
+    font-weight: 600;
+    font-style: italic;
+}
