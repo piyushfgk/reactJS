@@ -1,0 +1,13 @@
+.container{
+    margin: 0 2rem;
+    padding: 1rem;
+}
+
+.author{
+    margin-top: 10vh;
+}
+
+.author h2{
+    font-size: 1rem;
+    font-weight: 600;
+}
