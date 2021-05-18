@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Card from "./components/Card"
 import data from "./data.json";
 
-function App() {
+const App = () => {
     return (
         <>
             <Header title="list of top 5 netflix series in 2020" />
@@ -18,7 +18,7 @@ function App() {
                 </div>
             </section>
         </>
-    )
+    );
 }
 
 export default App;
