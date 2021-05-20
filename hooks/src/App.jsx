@@ -1,5 +1,9 @@
 import React, {useState} from 'react'
-import Display from "./components/Display";
+import "./index.css";
+import Counter from "./components/Counter";
+import Time from './components/Time';
+import CurrentTime from './components/CurrentTime';
+import SlideShow from './components/SlideShow';
 
 const App = () => {
     /** Set count */
@@ -13,37 +17,64 @@ const App = () => {
     const [time, setTime] = useState(new Date().toLocaleTimeString());
     const GetTime = () => setTime(new Date().toLocaleTimeString());
 
-    /** Current Time */
-    const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+    /** Slide Show */
+    const slideDefaultProps = {
+        count: 1,
+        button: {
+            text: "Click Me",
+            color: "primary"
+        },
+        style: {
+            backgroundColor: "skyblue"
+        }
+    };
 
-    setInterval(() => {
-        setCurrentTime(new Date().toLocaleTimeString());
-    }, 1000);
+    const[slProp, setSlideShow] = useState(slideDefaultProps);
+
+    const myShow = () => {
+        switch (slProp.count) {
+            case 1:
+                setSlideShow({
+                    count: slProp.count + 1,
+                    button: {
+                        text: "oOOucH 😨",
+                        subText: "I dare you to click again",
+                        color: "warning"
+                    },
+                    style: {
+                        backgroundColor: "darkcyan"
+                    }
+                });
+                break;
+            case 2:
+                setSlideShow({
+                    count: 0,
+                    button: {
+                        text: "Aoouw 😠",
+                        subText: "Don't click again",
+                        color: "danger"
+                    },
+                    style: {
+                        backgroundColor: "magenta"
+                    }
+                });
+                break;
+            default:
+                setSlideShow(slideDefaultProps);
+                break;
+        }
+    }
 
     return (
         <>
             <div className="container py-5">
-                <section className="count p-5 bg-light text-center">
-                    <p className="badge badge-dark">1. Counter</p>
-                    <Display data={count} />
-                    <div className="row d-flex justify-content-center mt-5">
-                        <button className="btn btn-primary btn-lg mx-3" onClick={IncNum}>Click Me 👍</button>
-                        <button className="btn btn-outline-secondary btn-lg mx-3" onClick={Reset}>Reset 👎</button>
-                    </div>
-                </section>
+                <Counter count={count} onIncrement={IncNum} onReset={Reset}/>
                 <hr />
-                <section className="time count p-5 bg-light text-center">
-                    <p className="badge badge-dark">2. Get Time</p>
-                    <Display data={time} />
-                    <div className="row d-flex justify-content-center mt-5">
-                        <button className="btn btn-primary btn-lg mx-3" onClick={GetTime}>Get Time ⏲️</button>
-                    </div>
-                </section>
+                <Time time={time} onGetTime={GetTime}/>
                 <hr />
-                <section className="current--time p-5 bg-light text-center">
-                    <p className="badge badge-dark">3. Current Time</p>
-                    <Display data={currentTime} />
-                </section>
+                <CurrentTime />
+                <hr />
+                <SlideShow slProp={slProp} onSlideShow={myShow}/>
             </div>
         </>
     );
