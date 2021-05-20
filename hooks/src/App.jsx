@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import "./index.css";
 import Counter from "./components/Counter";
 import Time from './components/Time';
 import CurrentTime from './components/CurrentTime';
