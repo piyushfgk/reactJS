@@ -56,7 +56,7 @@ const LoginForm = ({onLogin}) => {
 
     return (
         <div className="form">
-            <h2 className="p-3 bg-secondary text-light text-center">Login Form 1</h2>
+            <h2 className="p-3 bg-secondary text-light text-center">Login Form 2</h2>
             <form className="w-50 mx-auto" onSubmit={Login}>
                 <div className="form-group ">
                     <label htmlFor="exampleInputEmail1">Email address</label>
