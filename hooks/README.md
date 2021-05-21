@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# What we have learned in this mini project
 
 Replace this project with your react project having `node_modules` version ^17.0.2
 
