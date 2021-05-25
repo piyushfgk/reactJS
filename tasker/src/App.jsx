@@ -8,11 +8,11 @@ const App = () => {
     return (
         <>
             <Header></Header>
-            <Grid container direction="row"
-  justify="center">
-            <Grid item xs={10}>
-          <Paper elevation={0}><Form></Form></Paper>
-        </Grid>
+
+            <Grid container direction="row" justify="center">
+                <Grid item xs={10}>
+                    <Paper elevation={0}><Form></Form></Paper>
+                </Grid>
             </Grid>
         </>
     )
