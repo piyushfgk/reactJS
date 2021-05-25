@@ -23,68 +23,84 @@ const useStyles = makeStyles((theme) => ({
 const Form = () => {
     const classes = useStyles();
 
-    const defaultInputs = {
-        taskTitle: "",
-        isReminder: false,
-        dateTime: new Date(),
-        taskErr: false,
-        dateTimeErr: false,
+    const defaultErrors = {
         taskErrMsg: "",
         dateTimeErrMsg: ""
     }
 
-    const [formData, setFormData] = useState(defaultInputs);
-    const { taskTitle, isReminder, dateTime, taskErr, dateTimeErr, taskErrMsg, dateTimeErrMsg } = formData;
+    const defaultInputs = {
+        ...defaultErrors,
+        taskTitle: "",
+        isReminder: false,
+        dateTime: new Date()
+    }
 
-    const getInput = event => {
+    const [formData, setFormData] = useState(defaultInputs);
+    const { taskTitle, isReminder, dateTime, taskErrMsg, dateTimeErrMsg } = formData;
+
+    const getInput = (event) => {
         const id = event.target.id
-        let value = event.target.value
+        let value = event.target.value ?? ""
 
         if (id === 'isReminder') value = event.target.checked
 
-        if (id === 'taskTitle' && !value) {
-            setFormData({
-                ...formData,
-                taskErrMsg: "Task description is required"
-            })
-
-            return
-        }
-
-        setFormData({
-            ...formData,
-            [id]: value
-        })
+        setFormData({ ...formData, [id]: value })
     }
 
     // We explicitly have to set date as we are using Moment.js
-    const onDateChange = date => {
-        const inputDate = date._isValid !== true ? date._i : date._d
+    const onDateChange = (date) => {
+        let inputDate = null
+        let msg = ""
 
-        if (!inputDate) {
-            setFormData({
-                ...formData,
-                dateTimeErrMsg: "Not a valid date time"
-            })
-
-            return
+        try {
+            inputDate = date._isValid !== true ? date._i : date._d // _i contains previous date and _d containes current value
+        } catch (error) {
+            if (inputDate === null) {
+                msg = "Not a valid date time"
+            }
         }
 
-        setFormData({...formData, dateTime: inputDate})
+        setFormData({...formData, dateTime: inputDate, dateTimeErrMsg: msg})
     }
+
+    const submitForm = (event) => {
+        event.preventDefault()
+
+        let errors = defaultErrors
+        let formStatus = true
+
+        if (!formData.taskTitle) {
+            errors = { ...errors, taskErrMsg: "Task description is required" }
+            formStatus = false
+        }
+
+        if (formData.dateTimeErrMsg) {
+            errors = { ...errors, dateTimeErrMsg: "Date Time is required" }
+            formStatus = false
+        }
+
+        if (formStatus === false) {
+            setFormData({ ...formData, ...errors })
+        } else {
+            addTask(formData)
+            setFormData(defaultInputs)
+        }
+    }
+
+    const addTask = (params) => {console.log("add task", params)}
 
     return (
 
-        <form className={classes.root} autoComplete="off">
+        <form className={classes.root} autoComplete="off" onSubmit={submitForm}>
             <Grid container>
                 <Grid item container direction="column" spacing={4}>
                     <Grid item>
                         <TextField
                             id="taskTitle"
-                            error={taskErr}
+                            error={taskErrMsg !== ""}
                             label="Task"
                             fullWidth={true}
-                            helperText={taskErr === true ? taskErrMsg : ''}
+                            helperText={taskErrMsg !== "" ? taskErrMsg : ''}
                             multiline
                             rowsMax={4}
                             value={taskTitle}
@@ -94,7 +110,7 @@ const Form = () => {
                     <Grid item>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
                             <KeyboardDateTimePicker
-                                error={dateTimeErr}
+                                error={dateTimeErrMsg !== ""}
                                 id="dateTime"
                                 variant="outlined"
                                 ampm={false}
@@ -105,7 +121,7 @@ const Form = () => {
                                 fullWidth={true}
                                 disablePast
                                 format="DD/MM/yyyy HH:mm"
-                                helperText={dateTimeErr === true ? dateTimeErrMsg : ''}
+                                helperText={dateTimeErrMsg !== "" ? dateTimeErrMsg : ''}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -126,6 +142,7 @@ const Form = () => {
                             color="secondary"
                             startIcon={<AddIcon />}
                             fullWidth={true}
+                            type="submit"
                         >
                         Add
                         </Button>
