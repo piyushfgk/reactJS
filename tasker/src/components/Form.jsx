@@ -1,13 +1,11 @@
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react'
-import MomentUtils from '@date-io/moment';
-import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Grid } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import Controls from './controls/Controls'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,6 +19,19 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Form = () => {
+    const initialFValues = {
+        id: 0,
+        taskTitle: '',
+        dateTime: Date(),
+        mobile: '',
+        city: '',
+        gender: 'male',
+        departmentId: '',
+        hireDate: new Date(),
+        isPermanent: false,
+    }
+    const [values, setValues] = useState(initialFValues);
+    const [errors, setErrors] = useState({});
     const classes = useStyles();
 
     const defaultErrors = {
@@ -89,44 +100,71 @@ const Form = () => {
 
     const addTask = (params) => {console.log("add task", params)}
 
+    const handleInputChange = e => {
+        const {id, value} = e.target
+
+        setValues({ ...values, [id]: value})
+
+        validate({ [id]: value })
+    }
+
+    const validate = (fieldValues = values) => {
+        let temp = { ...errors }
+
+        if ('taskTitle' in fieldValues)
+            temp.taskTitle = fieldValues.taskTitle ? "" : "Task is required."
+        if ('dateTime' in fieldValues) {
+            const {_d: date, _isValid: isValidDate} = fieldValues.dateTime ?? {_d: null, _isValid: null}
+            temp.dateTime = date === null ? "Date Time is required." : isValidDate === false ? date.toString() : ""
+        }
+        console.log(temp);
+
+        setErrors(temp)
+
+        /**
+         * Check whether temp has any errors and
+         * returns a boolean value based on condition
+         * */
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
+    }
+
     return (
 
         <form className={classes.root} autoComplete="off" onSubmit={submitForm}>
             <Grid container>
                 <Grid item container direction="column" spacing={4}>
-                    <Grid item>
-                        <TextField
+                      <Grid item>
+                        <Controls.Input
                             id="taskTitle"
-                            error={taskErrMsg !== ""}
                             label="Task"
-                            fullWidth={true}
-                            helperText={taskErrMsg !== "" ? taskErrMsg : ''}
-                            multiline
-                            rowsMax={4}
-                            value={taskTitle}
-                            onChange={getInput}
+                            value={values.taskTitle}
+                            onChange={handleInputChange}
+                            error={errors.taskTitle}
+                            other={{
+                                multiline: true,
+                                rowsMax: 4,
+                                fullWidth: true
+                            }}
                         />
                     </Grid>
                     <Grid item>
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                            <KeyboardDateTimePicker
-                                error={dateTimeErrMsg !== ""}
-                                id="dateTime"
-                                variant="outlined"
-                                ampm={false}
-                                label="Date Time"
-                                value={dateTime}
-                                onChange={onDateChange}
-                                onError={console.log}
-                                fullWidth={true}
-                                disablePast
-                                format="DD/MM/yyyy HH:mm"
-                                helperText={dateTimeErrMsg !== "" ? dateTimeErrMsg : ''}
-                                InputLabelProps={{
+                        <Controls.DateTime
+                            id="dateTime"
+                            label="Choose date and time"
+                            value={values.dateTime}
+                            onChange={handleInputChange}
+                            error={errors.dateTime}
+                            other={{
+                                format: "DD/MM/yyyy HH:mm",
+                                fullWidth: true,
+                                InputLabelProps: {
                                     shrink: true,
-                                }}
-                            />
-                        </MuiPickersUtilsProvider>
+                                },
+                                disablePast: true,
+                                minDateMessage: "Date should not be in the past"
+                            }}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item container justify="space-between" className={classes.formFooter}>
