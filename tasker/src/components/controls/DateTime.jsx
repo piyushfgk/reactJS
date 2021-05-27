@@ -7,12 +7,20 @@ const DateTime = (props) => {
 
     const {id, label, value, variant, error = null, onChange, other} = props
 
-    const convertToDefEventPara = (id, value) => ({
-        target: {
-            id,
-            value
+    const convertToDefEventPara = (id, momentObj) => {
+
+        const {_d: date, _isValid: isValidDate} = momentObj ?? {_d: null, _isValid: null}
+        const dateTime = isValidDate === true ? date : null
+
+        return {
+            target: {
+                id: id,
+                value: dateTime
+            }
         }
-    })
+    }
+
+    const newDate = value ? moment(new Date(value)).format("DD/MM/yyyy HH:mm") : value
 
     return (
             <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -20,8 +28,7 @@ const DateTime = (props) => {
                     id={id}
                     label={label || "Date Time"}
                     variant={variant || "outlined"}
-                    //inputValue={moment(new Date(value)).format("DD/MM/yyyy HH:mm")}
-                    value={value}
+                    inputValue={newDate}
                     ampm={true}
                     onChange={momentDateTime => onChange(convertToDefEventPara(id, momentDateTime))}
                     { ...other }

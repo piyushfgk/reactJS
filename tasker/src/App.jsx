@@ -1,8 +1,8 @@
 import React from 'react'
-import Form from './components/Form'
 import Header from './components/Header'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper';
+import TaskForm from './components/TaskForm';
 
 const App = () => {
     return (
@@ -11,7 +11,9 @@ const App = () => {
 
             <Grid container direction="row" justify="center">
                 <Grid item xs={10}>
-                    <Paper elevation={0}><Form></Form></Paper>
+                    <Paper elevation={0}>
+                        <TaskForm></TaskForm>
+                    </Paper>
                 </Grid>
             </Grid>
         </>

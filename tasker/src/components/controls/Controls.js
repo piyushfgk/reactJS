@@ -1,13 +1,13 @@
 import Button from "./Button"
 import DateTime from "./DateTime"
 import Input from "./Input"
-import Switch from "./Switch"
+import Toggler from "./Toggler"
 
 const Controls = {
     Button,
     DateTime,
     Input,
-    Switch
+    Toggler
 }
 
 export default Controls
