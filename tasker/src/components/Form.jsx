@@ -58,22 +58,6 @@ const Form = () => {
         setFormData({ ...formData, [id]: value })
     }
 
-    // We explicitly have to set date as we are using Moment.js
-    const onDateChange = (date) => {
-        let inputDate = null
-        let msg = ""
-
-        try {
-            inputDate = date._isValid !== true ? date._i : date._d // _i contains previous date and _d containes current value
-        } catch (error) {
-            if (inputDate === null) {
-                msg = "Not a valid date time"
-            }
-        }
-
-        setFormData({...formData, dateTime: inputDate, dateTimeErrMsg: msg})
-    }
-
     const submitForm = (event) => {
         event.preventDefault()
 
@@ -115,9 +99,8 @@ const Form = () => {
             temp.taskTitle = fieldValues.taskTitle ? "" : "Task is required."
         if ('dateTime' in fieldValues) {
             const {_d: date, _isValid: isValidDate} = fieldValues.dateTime ?? {_d: null, _isValid: null}
-            temp.dateTime = date === null ? "Date Time is required." : isValidDate === false ? date.toString() : ""
+            temp.dateTime = date === null ? "Date Time is required." : isValidDate === false ? "Please choose date time by clicking calendar icon." : ""
         }
-        console.log(temp);
 
         setErrors(temp)
 
@@ -151,7 +134,6 @@ const Form = () => {
                     <Grid item>
                         <Controls.DateTime
                             id="dateTime"
-                            label="Choose date and time"
                             value={values.dateTime}
                             onChange={handleInputChange}
                             error={errors.dateTime}
