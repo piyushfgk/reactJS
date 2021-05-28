@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Controls from './controls/Controls'
@@ -11,6 +11,7 @@ const initialFValues = {
     taskTitle: '',
     dateTime: Date(),
     isReminder: false,
+    isDone: false
 }
 
 const useStyles = makeStyles((theme) => ({

@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    form: {
       flexGrow: 1,
       maxWidth: "500px",
       margin: '0 auto',
@@ -16,7 +16,7 @@ const Form = (props) => {
 
     return (
 
-        <form className={classes.root} autoComplete="off" { ...other }>
+        <form className={classes.form} autoComplete="off" { ...other }>
             {children}
         </form>
 
