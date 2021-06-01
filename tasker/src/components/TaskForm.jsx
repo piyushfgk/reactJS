@@ -5,6 +5,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Controls from './controls/Controls'
 import useForm from './useForm'
 import Form from './Form'
+import { setStorage } from './Storage'
+
+const storageName = "tasks"
 
 const initialFValues = {
     id: 0,
@@ -52,6 +55,7 @@ const TaskForm = () => {
 
         if (validate()) {
             console.log(values)
+            setStorage(storageName, values)
             clearForm()
         } else {
             console.error("Invalid data entry, please correct")

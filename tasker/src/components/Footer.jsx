@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
     footer: {
-        backgroundColor: "#f1ecec",
-        color: "#302e2e",
+        // backgroundColor: "#ebf0f3",
+        color: "#969899",
         marginTop: "5rem",
         textAlign: "center",
-        padding: "1rem",
+        padding: "0.5rem",
         borderRadius: 0
     },
     footerTitle: {
@@ -21,7 +21,7 @@ const Footer = () => {
     const classes = useStyles()
 
     return (
-        <Paper elevation={0} className={classes.footer}>
+        <Paper elevation={2} className={classes.footer}>
             <Typography className={classes.footerTitle} variant="caption" noWrap>
                 Tasker &copy; {new Date().getFullYear()}
             </Typography>

@@ -10,10 +10,6 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      marginBottom: 20
-    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -69,7 +65,6 @@ const Header = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <PlaylistAddCheckIcon
@@ -97,7 +92,6 @@ const Header = () => {
           </div>
         </Toolbar>
       </AppBar>
-    </div>
   )
 }
 

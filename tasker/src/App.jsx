@@ -8,6 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Footer from './components/Footer';
+import { getStorage } from './components/Storage'
+
+const storageName = "tasks"
 
 const App = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -24,7 +27,11 @@ const App = () => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
-            minHeight: "100vh"
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            // flexGrow: 1
         },
         taskList: {
             marginTop: "3rem",
@@ -43,9 +50,11 @@ const App = () => {
                     <Grid item xs={11}>
                         <TaskForm></TaskForm>
                         <Grid container direction="column" className={classes.taskList}>
-                            <Tasks reminder={false} taskTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas neque ex maiores, molestias hic quo libero doloremque pariatur saepe cumque, ducimus reprehenderit veritatis consectetur harum unde aut nobis atque tempore!"></Tasks>
-                            <Tasks reminder={true} taskTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit."></Tasks>
-                            <Tasks reminder={false} taskTitle="Lorem ipsum dolor sit amet!"></Tasks>
+                            {
+                              getStorage(storageName).map(task => (
+                                <Tasks key={task.id} taskInfo={task}></Tasks>
+                              ))
+                            }
                         </Grid>
                     </Grid>
                 </Grid>

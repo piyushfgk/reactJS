@@ -8,27 +8,29 @@ import AddAlertRoundedIcon from '@material-ui/icons/AddAlertRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Checkbox from './controls/Checkbox';
+import { deleteStoreItem } from './Storage'
+
+const storageName = "tasks"
 
 const useStyles = makeStyles((theme) => ({
     taskInfo: {
-        width: "70%",
-        backgroundColor: "#3F50B5",
+        backgroundColor: "#3f4f729e",
         minHeight: "60px",
         flexFlow: "row",
         padding: "0.5rem",
-        color: "#fff",
+        color: "#e7e3e3",
+        flex: 2,
         borderRadius: theme.shape.borderRadius,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             width: "100%",
         }
     },
     taskAction: {
-        width: "30%",
-        backgroundColor: "#D5DCF9",
+        flex: 1,
         borderRadius: theme.shape.borderRadius,
         minHeight: "60px",
         flexFlow: "row",
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             width: "100%",
             justifyContent: "center"
         }
@@ -41,11 +43,12 @@ const useStyles = makeStyles((theme) => ({
     },
     taskItem: {
         display: "flex",
+        // direction: "column",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#D5DCF9",
+        backgroundColor: "#d5dcf99e",
         borderRadius: theme.shape.borderRadius,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             flexDirection: "column"
         }
     },
@@ -54,17 +57,19 @@ const useStyles = makeStyles((theme) => ({
 const Tasks = (props) => {
 
     const classes = useStyles()
-    const { reminder = false, taskTitle = null } = props
+    const { id, dateTime, isDone, isReminder, taskTitle } = props.taskInfo
+
+    const deleteItem = (id) => deleteStoreItem(storageName, id)
 
     return (
             <Paper className={classes.taskItem}>
                 <Grid container item alignItems="center" className={classes.taskInfo}>
-                    <Checkbox isDone={true} className={classes.isChecked}></Checkbox>
+                    <Checkbox isDone={isDone} className={classes.isChecked}></Checkbox>
                     <Typography className={classes.taskTitle}>{taskTitle}</Typography>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.taskAction}>
-                    <Button disabled><AddAlertRoundedIcon color={reminder ? "secondary" : "inherit"}></AddAlertRoundedIcon></Button>
-                    <Button><DeleteForeverRoundedIcon></DeleteForeverRoundedIcon></Button>
+                <Grid container item justify="center" alignItems="center" className={classes.taskAction} color="secondary">
+                    <Button disabled><AddAlertRoundedIcon color={isReminder ? "secondary" : "inherit"}></AddAlertRoundedIcon></Button>
+                    <Button onClick={() => {deleteItem(id)}} ><DeleteForeverRoundedIcon></DeleteForeverRoundedIcon></Button>
                     <Button><EditRoundedIcon></EditRoundedIcon></Button>
                 </Grid>
             </Paper>
