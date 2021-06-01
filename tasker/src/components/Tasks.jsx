@@ -10,8 +10,7 @@ import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Checkbox from './controls/Checkbox';
 import { deleteStoreItem } from './Storage'
 import moment from 'moment'
-
-const storageName = "tasks"
+import settings from '../include/settings.js'
 
 const useStyles = makeStyles((theme) => ({
     taskInfo: {
@@ -66,7 +65,7 @@ const Tasks = (props) => {
     const { id, dateTime, isDone, isReminder, taskTitle } = props.taskInfo
     const fDateTime = moment(new Date(dateTime)).format("LLLL")
 
-    const deleteItem = (id) => deleteStoreItem(storageName, id)
+    const deleteItem = (id) => deleteStoreItem(settings.storageName, id)
 
     return (
             <Paper className={classes.taskItem}>

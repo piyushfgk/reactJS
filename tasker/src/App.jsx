@@ -9,8 +9,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Footer from './components/Footer';
 import { getStorage } from './components/Storage'
-
-const storageName = "tasks"
+import settings from './include/settings.js'
 
 const App = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -51,7 +50,7 @@ const App = () => {
                         <TaskForm></TaskForm>
                         <Grid container direction="column" className={classes.taskList}>
                             {
-                              getStorage(storageName).map(task => (
+                              getStorage(settings.storageName).map(task => (
                                 <Tasks key={task.id} taskInfo={task}></Tasks>
                               ))
                             }

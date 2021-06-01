@@ -6,8 +6,7 @@ import Controls from './controls/Controls'
 import useForm from './useForm'
 import Form from './Form'
 import { setStorage } from './Storage'
-
-const storageName = "tasks"
+import settings from '../include/settings.js'
 
 const initialFValues = {
     id: 0,
@@ -55,7 +54,7 @@ const TaskForm = () => {
 
         if (validate()) {
             console.log(values)
-            setStorage(storageName, values)
+            setStorage(settings.storageName, values)
             clearForm()
         } else {
             console.error("Invalid data entry, please correct")
