@@ -9,6 +9,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Checkbox from './controls/Checkbox';
 import { deleteStoreItem } from './Storage'
+import moment from 'moment'
 
 const storageName = "tasks"
 
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0.5rem",
         color: "#e7e3e3",
         flex: 2,
+        gap: "1rem",
         borderRadius: theme.shape.borderRadius,
         [theme.breakpoints.down('sm')]: {
             width: "100%",
@@ -36,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     isChecked: {
-        width: "10%"
+        // width: "10%"
     },
     taskTitle: {
-        width: "90%"
+        // width: "90%"
     },
     taskItem: {
         display: "flex",
@@ -52,12 +54,17 @@ const useStyles = makeStyles((theme) => ({
             flexDirection: "column"
         }
     },
+    dateTime: {
+        color: "#444",
+        // width: "220px"
+    }
   }));
 
 const Tasks = (props) => {
 
     const classes = useStyles()
     const { id, dateTime, isDone, isReminder, taskTitle } = props.taskInfo
+    const fDateTime = moment(new Date(dateTime)).format("LLLL")
 
     const deleteItem = (id) => deleteStoreItem(storageName, id)
 
@@ -65,7 +72,7 @@ const Tasks = (props) => {
             <Paper className={classes.taskItem}>
                 <Grid container item alignItems="center" className={classes.taskInfo}>
                     <Checkbox isDone={isDone} className={classes.isChecked}></Checkbox>
-                    <Typography className={classes.taskTitle}>{taskTitle}</Typography>
+                    <Typography className={classes.taskTitle}>{taskTitle} <Typography variant="caption" className={classes.dateTime}>{fDateTime}</Typography></Typography>
                 </Grid>
                 <Grid container item justify="center" alignItems="center" className={classes.taskAction} color="secondary">
                     <Button disabled><AddAlertRoundedIcon color={isReminder ? "secondary" : "inherit"}></AddAlertRoundedIcon></Button>

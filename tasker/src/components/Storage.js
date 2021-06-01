@@ -1,5 +1,5 @@
 const getStorage = (key) => {
-    const initialValue = {}
+    const initialValue = []
 
     try {
         const item = window.localStorage.getItem(key)
@@ -15,10 +15,10 @@ const getStorage = (key) => {
 const setStorage = (key, data) => {
 
     const Stores = getStorage(key)
-    const id = Object.keys(Stores).length ? Object.keys(Stores).length + 1 : 1
-    const indexedData = { ...data, id: id }
+    const maxId = Math.max(...Stores.map(obj => obj.id)) + 1
+    const indexedData = { ...data, id: maxId }
 
-    const valueToStore = Object.keys(Stores).length ? [ ...Stores, indexedData ] : [ indexedData ]
+    const valueToStore = Stores.length ? [ ...Stores, indexedData ] : [ indexedData ]
 
     window.localStorage.setItem(key, JSON.stringify(valueToStore));
 }
@@ -27,10 +27,10 @@ const deleteStoreItem = (key, id) => {
 
     const Stores = getStorage(key)
 
-    if (Object.keys(Stores).length) {
+    if (Stores.length) {
         try {
-            setStorage(key, Stores.filter(store => store.id !== id))
-
+            const newStore = Stores.filter(store => store.id !== id)
+            window.localStorage.setItem(key, JSON.stringify(newStore))
             return true
         } catch (error) {
 
