@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Footer from './components/Footer';
-import { getStorage } from './components/Storage'
+import useLocalStorage from './components/useStorage'
 import settings from './include/settings.js'
 
 const App = () => {
@@ -40,6 +40,8 @@ const App = () => {
 
     const classes = useStyles()
 
+    const { storedValue: getItems, setItem, deleteItem } = useLocalStorage(settings.storageName)
+
     return (
         <>
         <ThemeProvider theme={theme}>
@@ -47,11 +49,11 @@ const App = () => {
                 <Header></Header>
                 <Grid container justify="center" >
                     <Grid item xs={11}>
-                        <TaskForm></TaskForm>
+                        <TaskForm setItem={setItem}></TaskForm>
                         <Grid container direction="column" className={classes.taskList}>
                             {
-                              getStorage(settings.storageName).map(task => (
-                                <Tasks key={task.id} taskInfo={task}></Tasks>
+                              getItems.map(task => (
+                                <Tasks key={task.id} taskInfo={task} deleteItem={deleteItem}></Tasks>
                               ))
                             }
                         </Grid>

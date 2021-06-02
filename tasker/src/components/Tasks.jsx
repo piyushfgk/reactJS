@@ -8,9 +8,8 @@ import AddAlertRoundedIcon from '@material-ui/icons/AddAlertRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Checkbox from './controls/Checkbox';
-import { deleteStoreItem } from './Storage'
 import moment from 'moment'
-import settings from '../include/settings.js'
+
 
 const useStyles = makeStyles((theme) => ({
     taskInfo: {
@@ -65,7 +64,9 @@ const Tasks = (props) => {
     const { id, dateTime, isDone, isReminder, taskTitle } = props.taskInfo
     const fDateTime = moment(new Date(dateTime)).format("LLLL")
 
-    const deleteItem = (id) => deleteStoreItem(settings.storageName, id)
+    const { deleteItem } = props
+
+    const deleteTask = (id) => deleteItem(id)
 
     return (
             <Paper className={classes.taskItem}>
@@ -75,7 +76,7 @@ const Tasks = (props) => {
                 </Grid>
                 <Grid container item justify="center" alignItems="center" className={classes.taskAction} color="secondary">
                     <Button disabled><AddAlertRoundedIcon color={isReminder ? "secondary" : "inherit"}></AddAlertRoundedIcon></Button>
-                    <Button onClick={() => {deleteItem(id)}} ><DeleteForeverRoundedIcon></DeleteForeverRoundedIcon></Button>
+                    <Button onClick={() => {deleteTask(id)}} ><DeleteForeverRoundedIcon></DeleteForeverRoundedIcon></Button>
                     <Button><EditRoundedIcon></EditRoundedIcon></Button>
                 </Grid>
             </Paper>
