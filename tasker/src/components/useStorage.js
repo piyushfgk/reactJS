@@ -19,7 +19,7 @@ function useLocalStorage(key) {
     const setItem = (data) => {
 
         const Stores = storedValue
-        const maxId = Math.max(...Stores.map(obj => obj.id)) + 1
+        const maxId = Stores.length === 0 ? 1 : Math.max(...Stores.map(obj => obj.id)) + 1
         const indexedData = { ...data, id: maxId }
 
         const valueToStore = Stores.length ? [ ...Stores, indexedData ] : [ indexedData ]

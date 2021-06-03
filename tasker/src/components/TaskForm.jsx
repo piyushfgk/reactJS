@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Controls from './controls/Controls'
 import useForm from './useForm'
 import Form from './Form'
+import Message from './controls/Message'
 
 const initialFValues = {
     id: 0,
@@ -51,7 +52,7 @@ const TaskForm = (props) => {
         event.preventDefault()
 
         if (validate()) {
-            console.log(values)
+            // console.log(values)
             setItem(values)
             clearForm()
         } else {
